@@ -7,4 +7,12 @@ export class UserRepository {
     ]);
     return rows;
   }
+  async registerUser(username, password, email) {
+    console.log(' name, pw, email', username, password, email);
+    const [rows] = await db.query(
+      'INSERT INTO user (username, password, email) VALUES (?, ?, ?)',
+      [username, password, email]
+    );
+    return rows;
+  }
 }
