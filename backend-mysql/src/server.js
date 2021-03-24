@@ -7,6 +7,7 @@ const PORT = process.env.PORT;
 app.use(express.json());
 app.use(cors());
 app.use('/api/session', sessionRouter);
+app.use('/api/user', userRouter);
 
 app.get('/api', (req, res) => {
   res.send('api is up');
