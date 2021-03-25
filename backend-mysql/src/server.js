@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import sessionRouter from '../src/Routes/SessionRoutes.js';
-import userRouter from '../src/Routes/UserRoutes.js';
+import sessionRouter from '../Routes/SessionRoutes.js';
+import userRouter from '../Routes/UserRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT;
