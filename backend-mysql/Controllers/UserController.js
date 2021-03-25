@@ -10,7 +10,7 @@ export class UserController {
     try {
       const { username, password, email } = req.body;
       const data = await this.userService.register(username, password, email);
-      res.status(200).json(data);
+      res.status(200).json({message: data});
     } catch (err) {
       res.status(400).json(err.message);
     }
