@@ -9,10 +9,10 @@ export class UserController {
   async register(req, res) {
     try {
       const { username, password, email } = req.body;
-      const data = await this.userService.register(username, password, email);
-      res.status(200).json({message: data});
+      const user = await this.userService.register(username, password, email);
+      return res.status(200).json(user);
     } catch (err) {
-      res.status(400).json(err.message);
+      return res.status(400).json(err.message);
     }
   }
 }
