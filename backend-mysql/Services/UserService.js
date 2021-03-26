@@ -3,14 +3,19 @@ import { UserRepository } from '../Repositories/UserRepository.js';
 
 export class UserService {
   constructor() {
-    this.userRepository = new UserRepository();
+    this.userRepository = new UserRepository(); // ADD DI
   }
 
   async register(username, password, email) {
-    const findUser = await this.userRepository.findUser(username, email);
+    const user = await this.userRepository.findOneUser(username, email);
     console.log('registerben findUSer', findUser);
-    if (findUser?.name === username) throw Error('User with that name already exists!');
-    if (findUser?.email) throw Error('User with that email already exists!');
+    if (user.name === username) {
+        throw new Error('User with that name already exists!');
+        }
+    
+    if (user.email)  {
+      throw new Error('User with that email already exists');
+    }
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
@@ -20,8 +25,10 @@ export class UserService {
       email
     );
 
-    if (data?.affectedRows != 1) return 'Something went wrong during the registration process, please try again later';
+    if (data.affectedRows !== 1) {
+        throw new Error('something went wrong)'; 
+        }
 
-    return 'Registration was successful';
+    return user;
   }
 }
