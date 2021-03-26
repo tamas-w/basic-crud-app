@@ -1,20 +1,30 @@
 import { db } from '../data/connection.js';
 
 export class UserRepository {
-  async findUser(username, email) {
-    const [
-      rows,
-    ] = await db.query(
-      '(SELECT * FROM users where name = ?) UNION (SELECT * FROM users where email = ?)',
-      [username, email]
+  async findOneUser(username, email) {
+    const user = await db.query(
+      'SELECT * FROM users 
+       WHERE name ? 
+       AND email = ?', 
+       [username, email]
     );
-    return rows;
+      
+    return await user.results;
   }
+  
   async registerUser(username, password, email) {
-    const rows = await db.query(
-      'INSERT INTO users (name, password, email) VALUES (?, ?, ?)',
+    await db.query(
+      'INSERT INTO users (name, password, email) 
+       VALUES (?, ?, ?)',
       [username, password, email]
     );
-    return rows;
+    
+    const user = await db.query('SELECT * FROM users 
+                                 WHERE username ? 
+                                 AND email = ?', 
+                                 [username, email]
+                               );
+    
+    return await user.results;
   }
 }
