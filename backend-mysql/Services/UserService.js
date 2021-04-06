@@ -7,13 +7,12 @@ export class UserService {
   }
 
   async register(username, password, email) {
-    const findUser = await this.userRepository.findUser(email);
-    if (findUser?.username) {
+    const findUser = await this.userRepository.findUser(username, email);
+    if (findUser?.name === username)
       throw Error('User with that name already exists!');
-    }
-    if (findUser?.email) {
+    if (findUser?.email)
       throw Error('User with that email already exists!');
-    }
+
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const data = await this.userRepository.registerUser(
@@ -21,13 +20,15 @@ export class UserService {
       hashedPassword,
       email
     );
+
     if (!data) {
       throw Error(
         'Something went wrong during your registration process. Please try again later.'
       );
     }
+    
     return {
-      message: 'Registration was successful'
+      message: 'Registration was successful',
     };
   }
 }
