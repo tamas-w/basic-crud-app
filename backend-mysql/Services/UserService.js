@@ -21,6 +21,13 @@ export class UserService {
       hashedPassword,
       email
     );
-    return data;
+    if (!data) {
+      throw Error(
+        'Something went wrong during your registration process. Please try again later.'
+      );
+    }
+    return {
+      message: 'Registration was successful'
+    };
   }
 }
