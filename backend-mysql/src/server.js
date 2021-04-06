@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import sessionRouter from '../Routes/SessionRoutes.js';
+import userRouter from '../Routes/UserRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT;
@@ -7,6 +9,7 @@ const PORT = process.env.PORT;
 app.use(express.json());
 app.use(cors());
 app.use('/api/session', sessionRouter);
+app.use('/api/user', userRouter);
 
 app.get('/api', (req, res) => {
   res.send('api is up');
