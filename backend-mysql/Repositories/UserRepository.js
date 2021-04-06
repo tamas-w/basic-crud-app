@@ -17,4 +17,11 @@ export class UserRepository {
     );
     return rows;
   }
+  async updateUser(username, email, id) {
+    const rows = await db.query(
+      'UPDATE users SET name = ?, email = ? WHERE id = ?)',
+      [username, email, id]
+    );
+    return rows;
+  }
 }
