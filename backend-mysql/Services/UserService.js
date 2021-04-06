@@ -26,9 +26,9 @@ export class UserService {
         'Something went wrong during your registration process. Please try again later.'
       );
     }
-    
+
     return {
-      message: 'Registration was successful',
+      message: 'Registration was successful!',
     };
   }
 }

@@ -32,11 +32,11 @@ export const validateUser = [
     try {
       const { errors } = validationResult(req);
       if (errors.length) {
-        return res.status(422).json(errors[0].msg);
+        return res.status(422).json({error: errors[0].msg});
       }
       next();
     } catch (err) {
-      res.status(400).json(err.message);
+      res.status(400).json({error: err.message});
     }
   },
 ];
