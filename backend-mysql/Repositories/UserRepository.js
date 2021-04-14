@@ -1,13 +1,19 @@
 import { db } from '../data/connection.js';
 
 export class UserRepository {
+  async findUserForLogin(email) {
+    const [rows] = await db.query('SELECT * FROM users where email = ?', 
+      [email]
+    );
+    return rows;
+  }
+
   async findUser(username, email) {
-    const [
-      rows,
-    ] = await db.query(
+    const [rows] = await db.query(
       '(SELECT * FROM users where name = ?) UNION (SELECT * FROM users where email = ?)',
       [username, email]
     );
+    console.log('repoban rows', rows);
     return rows;
   }
   async registerUser(username, password, email) {
