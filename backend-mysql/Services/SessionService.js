@@ -1,12 +1,13 @@
 import bcrypt from 'bcrypt';
-import { SessionRepository } from '../Repositories/SessionRepository.js';
+import jwt from 'jsonwebtoken';
+import { UserRepository } from '../Repositories/UserRepository.js';
 
 export class SessionService {
   constructor() {
-    this.sessionRepository = new SessionRepository();
+    this.userRepository = new UserRepository();
   }
   async login(password, email) {
-    const user = await this.sessionRepository.findUser(email);
+    const user = await this.userRepository.findUserForLogin(email);
     if (!user) {
       throw Error("You haven't registered with that email yet!");
     }
@@ -14,6 +15,15 @@ export class SessionService {
     if (!comparePasswords) {
       throw Error('You gave wrong password for that account');
     }
-    return user;
+
+    const token = await jwt.sign(
+      {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+      process.env.SECRET_KEY
+    );
+    return { token: token };
   }
 }
